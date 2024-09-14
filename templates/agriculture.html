@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackMyEarnings - Agriculture and Farming</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #333;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table-section {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .form-section {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+        }
+        .form-section h3 {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #333;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #555;
+        }
+        input.form-control:focus {
+            border-color: black !important;
+            outline: 2px solid black !important;
+            box-shadow: none !important;
+        }
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">TrackMyEarnings - Agriculture and Farming</a>
+        <div class="ml-auto">
+            {% if request.user.is_authenticated %}
+                <a class="nav-link" href="{% url 'homepage' %}">Go To Home</a>
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Table Section -->
+        <div class="table-section">
+            <h3>Agriculture and Farming Expenses and Profit/Loss</h3>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Investment</th>
+                        <th>Pesticides Expenses</th>
+                        <th>Labour Expenses</th>
+                        <th>Other Expenses</th>
+                        <th>Income</th>
+                        <th>Present Profit/Loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{record.crop_name}}</td>
+                        <td>Rs.{{record.investment}}</td>
+                        <td>Rs.{{record.pesticides_expenses}}</td>
+                        <td>Rs.{{record.labour_expenses}}</td>
+                        <td>Rs.{{record.other_expenses}}</td>
+                        <td>Rs.{{record.income}}</td>
+                        <td>Rs.{{record.present_profit_or_loss}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Forms Section: Submit and Update Crop Details -->
+        <div class="form-row">
+            <!-- Form 1: Submit New Crop Details -->
+            <div class="form-section">
+                <h3>Submit New Crop Details</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="cropName">Crop Name</label>
+                        <input type="text" class="form-control" id="cropName" placeholder="Enter crop name" name="crop_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="investment">Investment</label>
+                        <input type="number" class="form-control" id="investment" placeholder="Enter investment cost" name="investment">
+                    </div>
+                    <div class="form-group">
+                        <label for="pesticidesExpenses">Pesticides Expenses</label>
+                        <input type="number" class="form-control" id="pesticidesExpenses" placeholder="Enter pesticides expenses" name="pesticides_expenses">
+                    </div>
+                    <div class="form-group">
+                        <label for="labourExpenses">Labour Expenses</label>
+                        <input type="number" class="form-control" id="labourExpenses" placeholder="Enter labour expenses" name="labour_expenses">
+                    </div>
+                    <div class="form-group">
+                        <label for="otherExpenses">Other Expenses</label>
+                        <input type="number" class="form-control" id="otherExpenses" placeholder="Enter other expenses" name="other_expenses">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" name="add_new">Submit</button>
+                </form>
+            </div>
+
+            <!-- Form 2: Update Crop Details -->
+            <div class="form-section">
+                <h3>Update Crop Details</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="cropNameUpdate">Crop Name</label>
+                        <input type="text" class="form-control" id="cropNameUpdate" placeholder="Enter crop name" name="crop_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="investmentUpdate">Investment</label>
+                        <input type="number" class="form-control" id="investmentUpdate" placeholder="Enter updated investment cost" name="investment">
+                    </div>
+                    <div class="form-group">
+                        <label for="pesticidesExpensesUpdate">Pesticides Expenses</label>
+                        <input type="number" class="form-control" id="pesticidesExpensesUpdate" placeholder="Enter updated pesticides expenses" name="pesticides_expenses">
+                    </div>
+                    <div class="form-group">
+                        <label for="labourExpensesUpdate">Labour Expenses</label>
+                        <input type="number" class="form-control" id="labourExpensesUpdate" placeholder="Enter updated labour expenses" name="labour_expenses">
+                    </div>
+                    <div class="form-group">
+                        <label for="otherExpensesUpdate">Other Expenses</label>
+                        <input type="number" class="form-control" id="otherExpensesUpdate" placeholder="Enter updated other expenses" name="other_expenses">
+                    </div>
+                    <div class="form-group">
+                        <label for="Income">Income</label>
+                        <input type="number" class="form-control" id="Income" placeholder="Enter Income on this crop" name="income">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" name="update" >Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

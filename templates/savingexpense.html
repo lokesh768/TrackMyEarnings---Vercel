@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackMyEarnings - Savings and Expenses</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #333;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .stats-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            gap: 30px;
+        }
+        .stats-section div {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 150px;
+        }
+        .table-section {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+        }
+        .form-section h3 {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #333;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #555;
+        }
+        input.form-control:focus {
+            border-color: black !important;
+            outline: 2px solid black !important;
+            box-shadow: none !important;
+        }
+        @media (max-width: 768px) {
+            .stats-section {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">TrackMyEarnings - Savings and Expenses</a>
+        <div class="ml-auto">
+            <a class="nav-link" href="#">Go To Home</a>
+            <a class="nav-link" href="#">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div>Total Savings: Rs. {{ networth.total_savings }}</div>
+            <div>Total Expense: Rs. {{ networth.total_expenses }}</div>
+            <div>Net Worth: Rs. {{ networth.net_worth }}</div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section">
+            <h3>Savings and Expenses Records</h3>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Type</th>
+                        <th>Purpose</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.type }}</td>
+                        <td>{{ record.purpose }}</td>
+                        <td>Rs. {{ record.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Form Section: Add New Record -->
+        <div class="form-section">
+            <h3>Add New Record</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select class="form-control" id="type" name="type">
+                        <option value="Expense">Expense</option>
+                        <option value="Saving">Saving</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="purpose">Purpose</label>
+                    <input type="text" class="form-control" id="purpose" placeholder="Enter purpose" name="purpose">
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
