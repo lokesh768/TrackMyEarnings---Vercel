@@ -55,7 +55,6 @@
             box-shadow: none !important;
         }
         
-        
         @media (max-width: 768px) {
             .form-row {
                 flex-direction: column;
@@ -72,34 +71,37 @@
                 <a class="nav-link" href="{% url 'homepage' %}">Go To Home</a>
                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
             {% endif %}
+        </div>
     </nav>
 
     <div class="container">
         <!-- Table Section -->
         <div class="table-section">
             <h3>Borrower Details</h3>
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Borrower Name</th>
-                        <th>Amount Lent</th>
-                        <th>Date Lent</th>
-                        <th>Interest Rate (Rs per 100)</th>
-                        <th>Total Amount to be paid</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for borrower in borrowers%}
-                    <tr>
-                        <td>{{borrower.borrower_name}}</td>
-                        <td>Rs.{{borrower.amount_lent}}</td>
-                        <td>{{borrower.date_lent}}</td>
-                        <td>{{borrower.interest}}rs</td>
-                        <td>{{borrower.total_amount_to_be_paid}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Borrower Name</th>
+                            <th>Amount Lent</th>
+                            <th>Date Lent</th>
+                            <th>Interest Rate (Rs per 100)</th>
+                            <th>Total Amount to be paid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for borrower in borrowers %}
+                        <tr>
+                            <td>{{ borrower.borrower_name }}</td>
+                            <td>Rs.{{ borrower.amount_lent }}</td>
+                            <td>{{ borrower.date_lent }}</td>
+                            <td>{{ borrower.interest }}rs</td>
+                            <td>{{ borrower.total_amount_to_be_paid }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         {% if messages %}
@@ -157,20 +159,4 @@
                     </div>
                     <div class="form-group">
                         <label for="dateLent">Date Paid</label>
-                        <input type="date" class="form-control" id="dateLent" name="date_paid">
-                    </div>
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="principalPaid" name="principal_paid">
-                        <label class="form-check-label" for="principalPaid">Principal Paid</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block" name="update-borrower-details">Update Details</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+                        <input type="date" class="form-control" id="dateLent" name
