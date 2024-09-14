@@ -16,6 +16,9 @@
         .navbar-brand, .nav-link {
             color: #fff !important;
         }
+        .navbar-toggler-icon {
+            background-color: #fff;
+        }
         .container {
             margin-top: 50px;
         }
@@ -73,9 +76,18 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">TrackMyEarnings - Savings and Expenses</a>
-        <div class="ml-auto">
-            <a class="nav-link" href="#">Go To Home</a>
-            <a class="nav-link" href="#">Logout</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Go To Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
         </div>
     </nav>
 
@@ -90,24 +102,26 @@
         <!-- Table Section -->
         <div class="table-section">
             <h3>Savings and Expenses Records</h3>
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Type</th>
-                        <th>Purpose</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for record in records %}
-                    <tr>
-                        <td>{{ record.type }}</td>
-                        <td>{{ record.purpose }}</td>
-                        <td>Rs. {{ record.amount }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Type</th>
+                            <th>Purpose</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record.type }}</td>
+                            <td>{{ record.purpose }}</td>
+                            <td>Rs. {{ record.amount }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         {% if messages %}
