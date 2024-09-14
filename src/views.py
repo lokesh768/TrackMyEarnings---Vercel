@@ -5,12 +5,15 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+@csrf_exempt
 def Home(request):
     return render(request,'homepage.html')
 
+@csrf_exempt
 def Register(request):
 
     if request.method == "POST":
@@ -47,6 +50,7 @@ def Register(request):
 
     return render(request,'register.html')
 
+@csrf_exempt
 def Login(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -66,11 +70,13 @@ def Login(request):
             return redirect('/')
     return render(request,'login.html')
 
+@csrf_exempt
 def Logout(request):
     user = (request.user.first_name +" " + request.user.last_name) if request.user.is_authenticated else 'Guest'
     logout(request)
     return render(request,'logout.html',{'user':user})
 
+@csrf_exempt
 @login_required(login_url="/login/")
 def InterestFromLendingMoney(request):
     if request.method=="POST":
@@ -128,6 +134,7 @@ def InterestFromLendingMoney(request):
     borrowers = Borrower.objects.filter(user=request.user)
     return render(request,'interestfromlendingmoney.html',{'borrowers':borrowers})
 
+@csrf_exempt
 @login_required(login_url="/login/")
 def Business(request):
     if request.method == "POST":
@@ -155,6 +162,7 @@ def Business(request):
     records = Farmer.objects.filter(user=request.user)
     return render(request,'business.html',{'records':records})
 
+@csrf_exempt
 @login_required(login_url="/login/")
 def Agriculture(request):
     
@@ -212,7 +220,7 @@ def Agriculture(request):
             
     return render(request,'agriculture.html',{'records':records})
 
-
+@csrf_exempt
 @login_required(login_url="/login/")
 def SavingsAndExpense(request):
     if request.method == "POST":
